@@ -1,0 +1,37 @@
+service:
+  name: patients-service
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-1
+  environment:
+    PATIENTS_TABLE_NAME: ${self:custom.PatientsTable.name}
+
+  iamRoleStatements:
+    - ${file(iam/PatientsTableIAM.yml):PatientsTableIAM}
+
+resources:
+  Resources:
+    PatientsTable: ${file(resources/PatientsTable.yml):PatientsTable}
+
+functions:
+  createPatient:
+    handler: src/handlers/createPatient.handler
+    events:
+      - http:
+          method: POST
+          path: /patient
+  
+custom:
+  PatientsTable:
+    name: !Ref PatientsTable
+    arn: !GetAtt PatientsTable.Arn
+  bundle:
+    linting: false
