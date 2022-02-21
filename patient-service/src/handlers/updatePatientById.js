@@ -2,7 +2,6 @@ import AWS from 'aws-sdk';
 import createError from 'http-errors';
 import commomMiddleware from '../utils/commomMiddleware';
 import _ from 'lodash'
-import { getPatientById } from './getPatientById'
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
