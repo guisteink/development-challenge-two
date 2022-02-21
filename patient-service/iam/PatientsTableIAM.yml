@@ -5,6 +5,7 @@ PatientsTableIAM:
       - dynamodb:Scan
       - dynamodb:GetItem
       - dynamodb:UpdateItem
-      - dynamodb:DeleteItem
+      - dynamodb:DeleteItem    
+      - dynamodb:Query
     Resource:
       - ${self:custom.PatientsTable.arn}

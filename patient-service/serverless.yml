@@ -29,6 +29,35 @@ functions:
           method: POST
           path: /patient
   
+  getPatient:
+    handler: src/handlers/getPatientById.handler
+    events:
+      - http:
+          method: GET
+          path: /patient/{id}
+
+  getPatients:
+    handler: src/handlers/getPatients.handler
+    events:
+      - http:
+          method: GET
+          path: /patients
+
+  updatePatient:
+    handler: src/handlers/updatePatientById.handler
+    events:
+      - http:
+          method: PUT
+          path: /patient/{id}
+  
+  deletePatient:
+    handler: src/handlers/deletePatientById.handler
+    events:
+      - http:
+          method: DELETE
+          path: /patient/{id}
+
+
 custom:
   PatientsTable:
     name: !Ref PatientsTable
