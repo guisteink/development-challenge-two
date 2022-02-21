@@ -8,6 +8,5 @@ jspm_packages
 # Webpack directories
 .webpack
 
-.gitignore 
 package-lock.json
 yarn.lock
