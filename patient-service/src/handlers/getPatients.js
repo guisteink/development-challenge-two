@@ -14,7 +14,7 @@ async function getPatients(event, context)
             TableName: process.env.PATIENTS_TABLE_NAME
         }).promise();
 
-        patients = result.Items;
+        patients = _.get(result, 'Items');
     } catch (error) {
         console.log(error)
         throw new createError.InternalServerError(error)

@@ -16,7 +16,7 @@ export async function getPatientById(event, context)
             Key: { id }
         }).promise();
 
-        findPatient = result.Item;
+        findPatient = _.get(result, 'Item');
     } catch (error) {
         console.log(error);
         throw new createError.InternalServerError(error)

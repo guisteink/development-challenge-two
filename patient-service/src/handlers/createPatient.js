@@ -8,7 +8,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createPatient(event, context)
 {
-    const { name, birthDate, email, address } = _.get(event, 'body');
+    const { name, birthDate, email, address } = event.body;
     const now = new Date();
 
     if (_.isEmpty(name) || _.isEmpty(email)) throw new createError.BadRequest("Name and email are required");

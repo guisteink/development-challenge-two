@@ -15,9 +15,9 @@ async function updatePatientById(event, context)
         Key: { id }
     }).promise();
 
-    let patient = findPatient.Item;
+    let patient = _.get(findPatient, 'Item');
 
-    const { name, birthDate, email, address } = _.get(event, 'body');
+    const { name, birthDate, email, address } = event.body;
     const now = new Date();
 
     if (_.isEmpty(findPatient)) throw new createError.NotFound("Patient not exits")
@@ -42,7 +42,7 @@ async function updatePatientById(event, context)
 
     try {
         const result = await dynamodb.update(udpatedParams).promise();
-        updatedPatient = result.Attributes;
+        updatedPatient = _.get(result, 'Attributes');
     } catch (error) {
         console.log(error);
         throw new createError.InternalServerError(error)

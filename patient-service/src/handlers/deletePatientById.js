@@ -16,13 +16,14 @@ export async function deletePatientById(event, context)
             Key: { id }
         }).promise();
 
-        findPatient = result.Item;
+        findPatient = _.get(result, 'Item')
 
-        if (_.isEmpty(findPatient)) throw new createError.NotFound(`Patient with ID "${id}" not found!`)
     } catch (error) {
         console.log(error);
         throw new createError.InternalServerError(error)
     }
+
+    if (_.isEmpty(findPatient)) throw new createError.NotFound(`Patient with ID "${id}" not found!`)
 
     return {
         statusCode: 200,
