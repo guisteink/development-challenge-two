@@ -89,6 +89,11 @@ export default function CreatePatient()
 
         } catch (error) {
             setButtonLoading(false)
+            setAlert({ type: 'error', description: error.message })
+            setTimeout(() =>
+            {
+                setAlert(null)
+            }, 2000);
             console.log(error)
         }
     }

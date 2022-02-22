@@ -39,21 +39,21 @@ export default function Home()
     const handleDelete = async (id) =>
     {
         setButtonLoading(true)
-        // try {
-        const result = await api.deletePatientById(id) //! fix retorno serverless
-        setAlert({ type: 'success', description: 'Sucesso ao deletar usuário' })
-        setTimeout(() =>
-        {
-            setButtonLoading(false)
-            setAlert(null)
-            window.location.reload()
-        }, 2000);
+        try {
+            const result = await api.deletePatientById(id) //! fix retorno serverless
+            if (result.status === 200) setAlert({ type: 'success', description: 'Sucesso ao deletar usuário' })
+            setTimeout(() =>
+            {
+                setButtonLoading(false)
+                setAlert(null)
+                window.location.reload()
+            }, 2000);
 
-        setButtonLoading(false)
-        // } catch (error) {
-        //     setButtonLoading(false)
-        //     console.log(error)
-        // }
+            setButtonLoading(false)
+        } catch (error) {
+            setButtonLoading(false)
+            console.log(error)
+        }
     }
 
     return <Box
@@ -93,8 +93,8 @@ export default function Home()
                 <Table sx={{ minWidth: 650, border: '3px solid white' }} aria-label="a dense table">
                     <TableHead>
                         <TableRow sx={{ color: 'white' }}>
-                            <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Nome completo</TableCell>
-                            <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">Data de aniversário</TableCell>
+                            <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Complete name</TableCell>
+                            <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">Birth Date</TableCell>
                             <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">Email</TableCell>
                             <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">Address</TableCell>
                             <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">Actions</TableCell>
