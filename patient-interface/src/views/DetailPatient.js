@@ -18,7 +18,12 @@ import { useParams } from "react-router-dom";
 
 export default function DetailPatient()
 {
-    const [patient, setPatient] = useState()
+    const [patient, setPatient] = useState({
+        name: "",
+        birthDate: "",
+        email: "",
+        address: ""
+    })
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -40,11 +45,10 @@ export default function DetailPatient()
 
     const handleChange = (e) =>
     {
-        let clonedData = patient;
-        clonedData[e.target.name] = e.target.value;
-        // console.log(e.target.name)
-        setPatient(clonedData);
-        //   setTickets(clonedData);
+        setPatient({
+            ...patient,
+            [e.target.name]: e.target.value
+        })
     }
     return <Box
         sx={{
@@ -69,40 +73,52 @@ export default function DetailPatient()
             <Stack spacing={3}>
                 <TextField
                     sx={{ width: '80vw' }}
-                    type="Text"
-                    label="Name"
-                    autoComplete="name"
-                    onChange={(e) => handleChange(e)}
+                    type="text"
+                    name="name"
+                    placeholder={patient.name ? "" : "Nome"}
+                    InputProps={{
+                        readOnly: true,
+                    }}
                     value={patient?.name}
                     id="outlined-basic" />
 
                 <TextField
                     sx={{ width: '80vw' }}
                     type="text"
-                    label="Birth date"
-                    autoComplete="birthdate"
+                    placeholder={patient.birthDate ? "" : "Birth date"}
+                    name="birthDate"
+                    InputProps={{
+                        readOnly: true,
+                    }}
                     value={patient?.birthDate}
                     id="outlined-basic" />
 
                 <TextField
+                    placeholder={patient.email ? "" : "Email"}
                     sx={{ width: '80vw' }}
                     type="email"
-                    label="Email"
-                    autoComplete="email"
+                    name="email"
+                    InputProps={{
+                        readOnly: true,
+                    }}
                     value={patient?.email}
                     id="outlined-basic" />
 
                 <TextField
+                    placeholder={patient.address ? "" : "Address"}
                     sx={{ width: '80vw', color: 'white' }}
                     type="Text"
-                    label="Address"
-                    autoComplete="address"
+                    name="address"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    // onChange={handleChange}
                     value={patient?.address}
                     id="outlined-basic" />
 
                 <ButtonGroup sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} variant="contained" size="large" aria-label="large button group">
-                    <Button onClick={() => console.log(patient)} sx={{ width: '50%', }} color="primary">Save</Button>
-                    <Button onClick={() => navigate('/home')} sx={{ width: '50%' }} color="secondary">Back</Button>
+                    <Button onClick={() => console.log(patient)} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="primary">Save</Button>
+                    <Button onClick={() => navigate('/home')} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="secondary">Back</Button>
                 </ButtonGroup>
             </Stack>
 

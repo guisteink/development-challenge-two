@@ -11,11 +11,13 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import _ from 'lodash'
 import api from '../services/api'
-import { useNavigate  } from 'react-router-dom'
+import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom'
 
 export default function Home()
 {
     const [patients, setPatients] = useState([])
+    const [alert, setAlert] = useState(false)
     const navigate = useNavigate();
 
     useEffect(() =>
@@ -28,6 +30,22 @@ export default function Home()
         try {
             const response = await api.getPatients()
             setPatients(_.get(response, 'data'))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleDelete = async id =>
+    {
+        try {
+            const result = await api.deletePatientById(id)
+            if (result.status === 200) setAlert({ type: 'success', description: 'Sucesso ao deletar usuário' })
+            setTimeout(() =>
+            {
+                setAlert(null)
+                window.location.reload()
+            }, 2000);
+
         } catch (error) {
             console.log(error)
         }
@@ -59,11 +77,14 @@ export default function Home()
                 backdropFilter: "blur(3px) saturate(100%) contrast(45%) brightness(130%)"
             }}>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '20px 20px 20px 20px', fontSize: '40px', fontWeight: 'bold', color: 'white', textShadow: '1px 1px 1px black' }}>
-                   
-                    <Button variant="contained" sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Add patient</Button>
+                    <Button onClick={() => navigate(`/create`)} variant="contained" sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Add patient</Button>
                 </Box>
                 <Table sx={{ minWidth: 650, border: '1px solid white' }} aria-label="a dense table">
                     <TableHead>
+                        {alert &&
+                            <Alert variant="filled" severity={alert?.type}>
+                                {alert?.description}
+                            </Alert>}
                         <TableRow sx={{ color: 'white' }}>
                             <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Nome completo</TableCell>
                             <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">Data de aniversário</TableCell>
@@ -82,9 +103,9 @@ export default function Home()
                                 <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">{row.address}</TableCell>
                                 <TableCell sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }} align="center">
                                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                        <Button sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Update</Button>
+                                        <Button onClick={() => navigate(`/create/${row.id}`)} sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Update</Button>
                                         <Button onClick={() => navigate(`/detail/${row.id}`)} sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Show</Button>
-                                        <Button sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Delete</Button>
+                                        <Button onClick={() => handleDelete(row.id)} sx={{ color: 'white', textShadow: '1px 1px 1px black', fontSize: '20px' }}>Delete</Button>
                                     </ButtonGroup>
                                 </TableCell>
                             </TableRow>
