@@ -27,6 +27,7 @@ functions:
     events:
       - http:
           method: POST
+          cors: true
           path: /patient
   
   getPatient:
@@ -34,6 +35,7 @@ functions:
     events:
       - http:
           method: GET
+          cors: true
           path: /patient/{id}
 
   getPatients:
@@ -41,6 +43,7 @@ functions:
     events:
       - http:
           method: GET
+          cors: true
           path: /patients
 
   updatePatient:
@@ -48,6 +51,7 @@ functions:
     events:
       - http:
           method: PUT
+          cors: true
           path: /patient/{id}
   
   deletePatient:
@@ -55,6 +59,7 @@ functions:
     events:
       - http:
           method: DELETE
+          cors: true
           path: /patient/{id}
 
 

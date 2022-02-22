@@ -7,27 +7,22 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 export async function deletePatientById(event, context)
 {
-    let findPatient;
     const { id } = event.pathParameters;
 
     try {
-        const result = await dynamodb.delete({
+        await dynamodb.delete({
             TableName: process.env.PATIENTS_TABLE_NAME,
             Key: { id }
         }).promise();
-
-        findPatient = _.get(result, 'Item')
 
     } catch (error) {
         console.log(error);
         throw new createError.InternalServerError(error)
     }
 
-    if (_.isEmpty(findPatient)) throw new createError.NotFound(`Patient with ID "${id}" not found!`)
-
     return {
         statusCode: 200,
-        body: JSON.stringify(findPatient),
+        body: JSON.stringify("Patient successfully deleted"),
     };
 }
 
