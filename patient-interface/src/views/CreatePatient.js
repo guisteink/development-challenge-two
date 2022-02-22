@@ -57,25 +57,38 @@ export default function CreatePatient()
 
     const handleUpdate = async () =>
     {
+        setButtonLoading(true)
         try {
+            const result = await api.updatePatientById(id, patient)
+            if (result.status === 200) setAlert({ type: 'success', description: 'Sucesso ao editar o usuário' })
+            setTimeout(() =>
+            {
+                setButtonLoading(false)
+                setAlert(null)
+                navigate('/home')
+            }, 2000);
 
         } catch (error) {
+            setButtonLoading(false)
             console.log(error)
         }
     }
 
     const handleSave = async () =>
     {
+        setButtonLoading(true)
         try {
             const result = await api.createPatient(patient)
-            if (result.status === 200) setAlert({ type: 'success', description: 'Sucesso ao criar novo usuário' })
+            if (result.status === 200) setAlert({ type: 'success', description: 'Sucesso ao criar o usuário' })
             setTimeout(() =>
             {
+                setButtonLoading(false)
                 setAlert(null)
                 navigate('/home')
             }, 2000);
 
         } catch (error) {
+            setButtonLoading(false)
             console.log(error)
         }
     }
@@ -143,11 +156,11 @@ export default function CreatePatient()
 
                 <ButtonGroup sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} variant="contained" size="large" aria-label="large button group">
                     {id ?
-                        <Button loading onClick={handleUpdate} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="primary">Update </Button>
+                        <Button disabled={buttonLoading ? true : false} onClick={handleUpdate} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="primary">Update </Button>
                         :
-                        <Button loading="true" onClick={handleSave} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="primary">Save</Button>
+                        <Button disabled={buttonLoading ? true : false} onClick={handleSave} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="primary">Save</Button>
                     }
-                    <Button onClick={() => navigate('/home')} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="secondary">Back</Button>
+                    <Button disabled={buttonLoading ? true : false} onClick={() => navigate('/home')} sx={{ width: '50%', textShadow: '1px 1px 1px black', fontSize: '20px' }} color="secondary">Back</Button>
                 </ButtonGroup>
             </Stack>
 
